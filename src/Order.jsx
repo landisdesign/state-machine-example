@@ -3,9 +3,11 @@ import { useCallback, useEffect, useState } from 'react';
 import OrderDetails from './OrderDetails';
 import styles from './Order.module.css';
 
+const initialValues = { item: '', quantity: 0 };
+
 function Order() {
   const [isRequestingUpdate, setRequestingUpdate] = useState(false);
-  const [orderData, setOrderData] = useState({ item: '', quantity: 0 });
+  const [orderData, setOrderData] = useState(initialValues);
   const [isReplacingOrder, setReplacingOrder] = useState(false);
   const [isConfirming, setConfirming] = useState(false);
   const [isReplacementConfirmed, setReplacementConfirmed] = useState(false);
@@ -40,6 +42,7 @@ function Order() {
   // completed state machine
   useEffect(() => {
     if (isCompleted) {
+      setOrderData({ ...initialValues }); // updates the reference, triggering resetFields in OrderDetails
       setTimeout(() => { setCompleted(false); }, 5000);
     }
   }, [isCompleted]);
